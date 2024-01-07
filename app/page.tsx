@@ -1,3 +1,10 @@
+import { UserButton } from "@clerk/nextjs";
+
 export default function Page() {
-  return <div>Page</div>;
+  return (
+    <div className="flex flex-col gap-y-4">
+      <h1>Dashboard</h1>
+      <UserButton afterSignOutUrl="/sign-in"></UserButton>
+    </div>
+  );
 }
