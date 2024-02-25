@@ -13,7 +13,7 @@ interface CreatorLayoutProps {
 
 const CreatorLayout = async ({ params, children }: CreatorLayoutProps) => {
   try {
-    const self = await getSelfByUsername(params.username);
+    await getSelfByUsername(params.username);
   } catch (error) {
     console.log(error);
     redirect("/");

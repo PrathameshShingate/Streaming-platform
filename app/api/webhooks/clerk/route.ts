@@ -4,6 +4,7 @@ import { WebhookEvent } from "@clerk/nextjs/server";
 import { connectToDatabase, disconnectFromDatabase } from "@/lib/database";
 import { NextResponse } from "next/server";
 import UserSchema from "@/lib/schemas/user";
+import StreamSchema from "@/lib/schemas/stream";
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
@@ -61,11 +62,22 @@ export async function POST(req: Request) {
   }
 
   if (eventType === "user.created") {
-    await UserSchema.create({
+    const user = await UserSchema.create({
       username: payload.data.username,
       clerkId: payload.data.id,
       imageUrl: payload.data.image_url,
     });
+
+    const stream = await StreamSchema.create({
+      userId: user.id,
+      name: `${user.username}'s stream`,
+    });
+
+    await UserSchema.findOneAndUpdate(
+      { _id: stream.userId },
+      { streamId: stream._id },
+      { new: true }
+    );
   }
 
   if (eventType === "user.updated") {

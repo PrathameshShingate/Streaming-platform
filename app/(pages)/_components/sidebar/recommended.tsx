@@ -5,15 +5,14 @@ import { useSidebar } from "@/store/use-sidebar";
 import { UserItem, UserItemSkeleton } from "./user-item";
 
 interface RecommendedProps {
-  data: ({
+  data: {
     _id: string;
     username: string;
     imageUrl: string;
     clerkId: string;
     bio?: string;
-  } & {
-    stream: { isLive: boolean } | null;
-  })[];
+    streamId: { _id: string; isLive: boolean } | null;
+  }[];
 }
 
 export const Recommended = ({ data }: RecommendedProps) => {
@@ -34,7 +33,7 @@ export const Recommended = ({ data }: RecommendedProps) => {
             key={user._id}
             username={user.username}
             imageUrl={user.imageUrl}
-            isLive={user.stream?.isLive}
+            isLive={user.streamId?.isLive}
           />
         ))}
       </ul>

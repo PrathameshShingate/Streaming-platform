@@ -2,6 +2,7 @@ import { getSelf } from "./auth-service";
 import UserSchema from "@/lib/schemas/user";
 import follow from "./schemas/follow";
 import block from "./schemas/block";
+import stream from "./schemas/stream";
 
 export async function getRecommendedUsers() {
   let userId;
@@ -33,11 +34,17 @@ export async function getRecommendedUsers() {
     //Skip self, followed users and users who blocked me using userId, followedUserIds, userIdsWhoBlockedMe
     users = await UserSchema.find({
       _id: { $ne: userId, $nin: combinedArray },
-    }).sort({
-      createdAt: -1,
-    });
+    })
+      .sort({
+        createdAt: -1,
+      })
+      .populate({ path: "streamId", model: stream, select: "isLive" })
+      .lean();
   } else {
-    users = await UserSchema.find().sort({ createdAt: -1 });
+    users = await UserSchema.find()
+      .sort({ createdAt: -1 })
+      .populate({ path: "streamId", model: stream, select: "isLive" })
+      .lean();
   }
 
   return users;

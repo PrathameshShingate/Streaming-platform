@@ -15,8 +15,15 @@ interface ActionsProps {
     imageUrl: string;
     clerkId: string;
     bio?: string;
-  } & {
-    stream: { isLive: boolean } | null;
+    stream: {
+      _id: string;
+      userId: string;
+      name: string;
+      isLive: boolean;
+      isChatEnabled: boolean;
+      isChatDelayed: boolean;
+      isChatFollowersOnly: boolean;
+    } | null;
   };
 }
 

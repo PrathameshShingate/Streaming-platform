@@ -2,6 +2,7 @@ import { getSelf } from "./auth-service";
 import UserSchema from "@/lib/schemas/user";
 import follow from "./schemas/follow";
 import block from "./schemas/block";
+import stream from "./schemas/stream";
 
 export async function isFollowingUser(id: string) {
   const self = await getSelf();
@@ -52,7 +53,6 @@ export async function followUser(id: string) {
   });
 
   return followed;
-  // return followed.populate("followerId followingId");
 }
 
 export async function unFollowUser(id: string) {
@@ -85,8 +85,6 @@ export async function unFollowUser(id: string) {
   return unfollow;
 }
 
-//This function is not being used because of populate issue
-//This is an optimized version of below function testGetFollowedUsers
 export async function getFollowedUsers() {
   let userId;
 
@@ -100,12 +98,12 @@ export async function getFollowedUsers() {
   //Get my followings with users populated in it
   const myFollowings = await follow
     .find({ followerId: userId })
-    .populate("followingId followerId");
+    .populate({ path: "followingId", model: UserSchema });
 
   return myFollowings;
 }
 
-export async function testGetFollowedUsers() {
+export async function GetFollowedAndNotBeenBlockedByUsers() {
   let userId;
 
   try {
@@ -130,7 +128,9 @@ export async function testGetFollowedUsers() {
   //Get users from followedUserIds
   const followedUsers = await UserSchema.find({
     _id: { $in: followedUserIds, $nin: userIdsWhoBlockedMe },
-  });
+  })
+    .populate({ path: "streamId", model: stream, select: "isLive" })
+    .lean();
 
   return followedUsers;
 

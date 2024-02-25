@@ -6,6 +6,7 @@ const UserSchema = new Schema(
     imageUrl: { type: Schema.Types.String },
     clerkId: { type: Schema.Types.String, required: true, unique: true },
     bio: { type: Schema.Types.String },
+    streamId: { type: Schema.Types.ObjectId, ref: "stream" },
   },
   { timestamps: true }
 );

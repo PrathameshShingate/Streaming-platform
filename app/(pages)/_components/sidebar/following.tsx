@@ -4,30 +4,39 @@ import { useSidebar } from "@/store/use-sidebar";
 
 import { UserItem, UserItemSkeleton } from "./user-item";
 
+// {
+//     stream: any;
+//     imageUrl: string;
+//     username: string;
+//     _id: string;
+//     followerId: {
+//       _id: string;
+//       username: string;
+//       imageUrl: string;
+//       clerkId: string;
+//       bio?: string;
+//     } & {
+//       stream: { isLive: boolean } | null;
+//     };
+//     followingId: {
+//       _id: string;
+//       username: string;
+//       imageUrl: string;
+//       clerkId: string;
+//       bio?: string;
+//     } & {
+//       stream: { isLive: boolean } | null;
+//     };
+//   }
+
 interface FollowingProps {
   data: {
-    stream: any;
-    imageUrl: string;
-    username: string;
     _id: string;
-    followerId: {
-      _id: string;
-      username: string;
-      imageUrl: string;
-      clerkId: string;
-      bio?: string;
-    } & {
-      stream: { isLive: boolean } | null;
-    };
-    followingId: {
-      _id: string;
-      username: string;
-      imageUrl: string;
-      clerkId: string;
-      bio?: string;
-    } & {
-      stream: { isLive: boolean } | null;
-    };
+    username: string;
+    imageUrl: string;
+    clerkId: string;
+    bio?: string;
+    streamId: { _id: string; isLive: boolean } | null;
   }[];
 }
 
@@ -51,7 +60,7 @@ export const Following = ({ data }: FollowingProps) => {
             key={user._id}
             username={user.username}
             imageUrl={user.imageUrl}
-            isLive={user.stream?.isLive}
+            isLive={user.streamId?.isLive}
           />
         ))}
       </ul>
