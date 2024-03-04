@@ -5,7 +5,7 @@ import { useTransition } from "react";
 import { MinusCircle } from "lucide-react";
 
 import { Hint } from "@/components/hint";
-import { onUnBlockUser } from "@/actions/block";
+import { onBlockUser } from "@/actions/block";
 import { cn, stringToColor } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -32,7 +32,7 @@ export const CommunityItem = ({
     if (!participantName || isSelf || !isHost) return;
 
     startTransition(() => {
-      onUnBlockUser(participantIdentity)
+      onBlockUser(participantIdentity)
         .then(() => toast.success(`Blocked ${participantName}`))
         .catch(() => toast.error("Something went wrong"));
     });

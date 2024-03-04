@@ -5,7 +5,13 @@ import block from "./schemas/block";
 import stream from "./schemas/stream";
 
 export async function isFollowingUser(id: string) {
-  const self = await getSelf();
+  let self;
+
+  try {
+    self = await getSelf();
+  } catch (error) {
+    return false;
+  }
 
   const otherUser = await UserSchema.findOne({ _id: id });
 
@@ -98,7 +104,8 @@ export async function getFollowedUsers() {
   //Get my followings with users populated in it
   const myFollowings = await follow
     .find({ followerId: userId })
-    .populate({ path: "followingId", model: UserSchema });
+    .populate({ path: "followingId", model: UserSchema })
+    .lean();
 
   return myFollowings;
 }

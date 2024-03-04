@@ -3,7 +3,13 @@ import UserSchema from "@/lib/schemas/user";
 import block from "./schemas/block";
 
 export async function isBlockedByUser(id: string) {
-  const self = await getSelf();
+  let self;
+
+  try {
+    self = await getSelf();
+  } catch (error) {
+    return false;
+  }
 
   const otherUser = await UserSchema.findOne({ _id: id });
 
@@ -51,7 +57,6 @@ export async function blockUser(id: string) {
   });
 
   return blocked;
-  // return followed.populate("followerId followingId");
 }
 
 export async function unBlockUser(id: string) {

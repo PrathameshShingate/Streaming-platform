@@ -15,7 +15,7 @@ export async function getSelf() {
     throw new Error("Unauthorized");
   }
 
-  const dbUser = UserSchema.findOne({
+  const dbUser = await UserSchema.findOne({
     clerkId: clerkCurrentUser.id,
   });
 
