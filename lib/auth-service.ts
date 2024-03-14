@@ -20,7 +20,7 @@ export async function getSelf() {
   });
 
   if (!dbUser) {
-    throw new Error("Clerk user not found in gamehub db");
+    throw new Error("Clerk user not found in StreamHub db");
   }
 
   return dbUser;
