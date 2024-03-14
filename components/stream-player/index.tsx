@@ -23,7 +23,7 @@ type CustomStream = {
 };
 
 type CustomUser = {
-  id: string;
+  _id: string;
   username: string;
   bio: string | null;
   stream: CustomStream | null;
