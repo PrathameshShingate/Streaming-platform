@@ -139,14 +139,14 @@ export async function GetFollowedAndNotBeenBlockedByUsers() {
     .populate({ path: "streamId", model: stream, select: "isLive" })
     .lean();
 
-  return followedUsers;
+  // return followedUsers;
 
-  //Created this to remove the warning - Only plain objects can be passed to Client Components from Server Components.Objects with toJSON methods are not supported.
-  // const plainObjectsArray = users.map((doc: any) => {
-  //   return {
-  //     ...doc._doc,
-  //   };
-  // });
+  // Created this to remove the warning - Only plain objects can be passed to Client Components from Server Components.Objects with toJSON methods are not supported.
+  const plainObjectsArray = followedUsers.map((doc: any) => {
+    return {
+      ...doc,
+    };
+  });
 
-  // return plainObjectsArray;
+  return plainObjectsArray;
 }
